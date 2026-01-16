@@ -16,6 +16,7 @@ public partial class MainWindow : Window
 {
     private readonly PluginLoader _pluginLoader;
     private SidebarWindow? _sidebarWindow;
+    private System.Windows.Forms.NotifyIcon? _trayIcon;
     
     public static MainWindow? Instance { get; private set; }
     
@@ -23,6 +24,9 @@ public partial class MainWindow : Window
     {
         Instance = this;
         InitializeComponent();
+        
+        // Initialize system tray icon
+        InitializeTrayIcon();
         
         // Initialize plugin loader and discover plugins
         _pluginLoader = new PluginLoader();
@@ -104,8 +108,109 @@ public partial class MainWindow : Window
     
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
-        Close();
+        // Minimize to tray instead of closing
+        Hide();
+        if (_trayIcon != null)
+        {
+            _trayIcon.Visible = true;
+            _trayIcon.ShowBalloonTip(2000, "OmniShell", "App is running in the background", 
+                System.Windows.Forms.ToolTipIcon.Info);
+        }
     }
+    
+    #region System Tray Management
+    
+    private void InitializeTrayIcon()
+    {
+        try
+        {
+            System.Drawing.Icon appIcon = System.Drawing.SystemIcons.Application;
+            
+            // Try to load custom icon
+            var iconPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "app_icon.ico");
+            if (System.IO.File.Exists(iconPath))
+            {
+                try
+                {
+                    appIcon = new System.Drawing.Icon(iconPath);
+                }
+                catch
+                {
+                    // Fallback to system icon if custom icon fails to load
+                }
+            }
+            
+            _trayIcon = new System.Windows.Forms.NotifyIcon
+            {
+                Icon = appIcon,
+                Visible = false,
+                Text = "OmniShell"
+            };
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to initialize tray icon: {ex.Message}");
+            // Create minimal tray icon without crashing
+            _trayIcon = new System.Windows.Forms.NotifyIcon
+            {
+                Icon = System.Drawing.SystemIcons.Application,
+                Visible = false,
+                Text = "OmniShell"
+            };
+        }
+        // Create context menu
+        var contextMenu = new System.Windows.Forms.ContextMenuStrip();
+        
+        var showItem = new System.Windows.Forms.ToolStripMenuItem("Show OmniShell");
+        showItem.Click += (s, e) => 
+        {
+            Show();
+            WindowState = WindowState.Normal;
+            Activate();
+            if (_trayIcon != null) _trayIcon.Visible = false;
+        };
+        contextMenu.Items.Add(showItem);
+        
+        var toggleSidebarItem = new System.Windows.Forms.ToolStripMenuItem("Toggle Sidebar");
+        toggleSidebarItem.Click += (s, e) => ToggleSidebar();
+        contextMenu.Items.Add(toggleSidebarItem);
+        
+        contextMenu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+        
+        var exitItem = new System.Windows.Forms.ToolStripMenuItem("Exit");
+        exitItem.Click += (s, e) =>
+        {
+            _trayIcon?.Dispose();
+            _trayIcon = null;
+            Application.Current.Shutdown();
+        };
+        contextMenu.Items.Add(exitItem);
+        
+        _trayIcon.ContextMenuStrip = contextMenu;
+        
+        // Double-click to show window
+        _trayIcon.DoubleClick += (s, e) =>
+        {
+            Show();
+            WindowState = WindowState.Normal;
+            Activate();
+            _trayIcon.Visible = false;
+        };
+    }
+    
+    protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+    {
+        // Prevent closing, minimize to tray instead
+        e.Cancel = true;
+        Hide();
+        if (_trayIcon != null)
+        {
+            _trayIcon.Visible = true;
+        }
+        base.OnClosing(e);
+    }
+    
+    #endregion
     
     #region Sidebar Management
     

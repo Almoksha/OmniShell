@@ -22,7 +22,9 @@
 
   <!-- Copy app icons to output directory -->
   <ItemGroup>
-    <Resource Include="Resources\app_icon.ico" />
+    <None Update="Resources\app_icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\app_icon\app_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -13,6 +13,69 @@ public partial class SettingsPage : Page
         InitializeComponent();
         CheckContextMenuStatus();
         UpdateSidebarButtonState();
+        InitializeStartupToggle();
+    }
+    
+    private void InitializeStartupToggle()
+    {
+        // Set initial state based on whether startup is enabled
+        UpdateStartupToggleUI(Services.StartupManager.IsStartupEnabled());
+    }
+    
+    private void UpdateStartupToggleUI(bool isEnabled)
+    {
+        var enabledColor = new System.Windows.Media.SolidColorBrush(
+            System.Windows.Media.Color.FromRgb(0x63, 0x66, 0xF1)); // Primary blue
+        var disabledColor = new System.Windows.Media.SolidColorBrush(
+            System.Windows.Media.Color.FromRgb(0x4B, 0x55, 0x63)); // Gray
+        
+        StartupToggle.Background = isEnabled ? enabledColor : disabledColor;
+        StartupToggleKnob.HorizontalAlignment = isEnabled 
+            ? System.Windows.HorizontalAlignment.Right 
+            : System.Windows.HorizontalAlignment.Left;
+    }
+    
+    private void StartupToggle_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        try
+        {
+            bool currentState = Services.StartupManager.IsStartupEnabled();
+            bool newState = !currentState;
+            
+            if (newState)
+            {
+                if (Services.StartupManager.EnableStartup())
+                {
+                    UpdateStartupToggleUI(true);
+                    System.Windows.MessageBox.Show("OmniShell will now start with Windows!", 
+                        "Success", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Failed to enable startup. Please try running as Administrator.", 
+                        "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                if (Services.StartupManager.DisableStartup())
+                {
+                    UpdateStartupToggleUI(false);
+                    System.Windows.MessageBox.Show("OmniShell will no longer start with Windows.", 
+                        "Success", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Failed to disable startup.", 
+                        "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Error: {ex.Message}", "Error", 
+                System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        }
     }
     
     private void UpdateSidebarButtonState()
@@ -84,5 +147,23 @@ public partial class SettingsPage : Page
         
         mainWindow.ToggleSidebar();
         UpdateSidebarButtonState();
+    }
+    
+    private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+    {
+        try
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = e.Uri.AbsoluteUri,
+                UseShellExecute = true
+            });
+            e.Handled = true;
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Failed to open link: {ex.Message}", "Error", 
+                System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        }
     }
 }

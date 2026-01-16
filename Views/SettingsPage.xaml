@@ -92,9 +92,29 @@
                                        Foreground="{StaticResource TextSecondaryBrush}"
                                        Margin="0,4,0,0"/>
                         </StackPanel>
-                        <CheckBox x:Name="StartupCheckBox" 
-                                  Grid.Column="1"
-                                  VerticalAlignment="Center"/>
+                        
+                        <!-- Custom iOS-style toggle switch -->
+                        <Border x:Name="StartupToggle"
+                                Grid.Column="1"
+                                Width="52" Height="28"
+                                CornerRadius="14"
+                                Background="#4B5563"
+                                Cursor="Hand"
+                                Padding="2"
+                                VerticalAlignment="Center"
+                                MouseLeftButtonUp="StartupToggle_Click">
+                            <Ellipse x:Name="StartupToggleKnob"
+                                     Width="24" Height="24"
+                                     Fill="White"
+                                     HorizontalAlignment="Left">
+                                <Ellipse.Effect>
+                                    <DropShadowEffect Color="Black" 
+                                                      Opacity="0.2" 
+                                                      BlurRadius="4" 
+                                                      ShadowDepth="1"/>
+                                </Ellipse.Effect>
+                            </Ellipse>
+                        </Border>
                     </Grid>
                 </Border>
                 
@@ -113,6 +133,16 @@
                                    FontSize="13" 
                                    Foreground="{StaticResource TextSecondaryBrush}"
                                    Margin="0,4,0,0"/>
+                        
+                        <!-- GitHub Link -->
+                        <TextBlock Margin="0,12,0,0">
+                            <Hyperlink NavigateUri="https://github.com/Almoksha/Omni-Shell"
+                                       RequestNavigate="Hyperlink_RequestNavigate"
+                                       Foreground="#6366F1"
+                                       TextDecorations="None">
+                                <Run Text="🔗 GitHub Repository" FontSize="13"/>
+                            </Hyperlink>
+                        </TextBlock>
                     </StackPanel>
                 </Border>
             </StackPanel>

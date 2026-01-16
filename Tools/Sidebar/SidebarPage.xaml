@@ -77,13 +77,13 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 
+                                <!-- Hidden radio button for state management -->
                                 <RadioButton x:Name="FloatingModeRadio" 
                                              GroupName="SidebarMode"
                                              IsChecked="True"
-                                             VerticalAlignment="Center"
-                                             Margin="0,0,12,0"/>
+                                             Visibility="Collapsed"/>
                                 
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <StackPanel Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center">
                                     <TextBlock Text="Floating (Overlay)" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
@@ -94,6 +94,22 @@
                                                Margin="0,4,0,0"
                                                TextWrapping="Wrap"/>
                                 </StackPanel>
+                                
+                                <!-- Custom checkmark indicator -->
+                                <Border x:Name="FloatingCheckmark"
+                                        Grid.Column="2"
+                                        Width="24" Height="24"
+                                        CornerRadius="12"
+                                        Background="#6366F1"
+                                        VerticalAlignment="Center"
+                                        Margin="12,0,0,0">
+                                    <TextBlock Text="✓" 
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Foreground="White"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
                             </Grid>
                         </Border>
                         
@@ -110,14 +126,15 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 
+                                <!-- Hidden radio button for state management -->
                                 <RadioButton x:Name="DockedModeRadio" 
                                              GroupName="SidebarMode"
-                                             VerticalAlignment="Center"
-                                             Margin="0,0,12,0"/>
+                                             Visibility="Collapsed"/>
                                 
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <StackPanel Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center">
                                     <TextBlock Text="Docked (AppBar)" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
@@ -128,6 +145,23 @@
                                                Margin="0,4,0,0"
                                                TextWrapping="Wrap"/>
                                 </StackPanel>
+                                
+                                <!-- Custom checkmark indicator (initially hidden) -->
+                                <Border x:Name="DockedCheckmark"
+                                        Grid.Column="2"
+                                        Width="24" Height="24"
+                                        CornerRadius="12"
+                                        Background="#6366F1"
+                                        VerticalAlignment="Center"
+                                        Margin="12,0,0,0"
+                                        Visibility="Collapsed">
+                                    <TextBlock Text="✓" 
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Foreground="White"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
                             </Grid>
                         </Border>
                     </StackPanel>

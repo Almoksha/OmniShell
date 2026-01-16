@@ -11,8 +11,7 @@
         Background="{StaticResource BackgroundBrush}"
         WindowStyle="None"
         AllowsTransparency="True"
-        ResizeMode="CanResizeWithGrip"
-        Icon="Resources/app_icon.ico">
+        ResizeMode="CanResizeWithGrip">
     
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="40" 

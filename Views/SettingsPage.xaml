@@ -136,7 +136,7 @@
                         
                         <!-- GitHub Link -->
                         <TextBlock Margin="0,12,0,0">
-                            <Hyperlink NavigateUri="https://github.com/Almoksha/Omni-Shell"
+                            <Hyperlink NavigateUri="https://github.com/Almoksha/OmniShell"
                                        RequestNavigate="Hyperlink_RequestNavigate"
                                        Foreground="#6366F1"
                                        TextDecorations="None">

@@ -54,6 +54,17 @@ public partial class SidebarPage : System.Windows.Controls.Page
 
     private void SidebarPage_Loaded(object sender, RoutedEventArgs e)
     {
+        // Restore saved sidebar mode preference
+        var savedMode = Services.AppSettings.GetSidebarMode();
+        if (savedMode == "Docked")
+        {
+            DockedModeRadio.IsChecked = true;
+        }
+        else
+        {
+            FloatingModeRadio.IsChecked = true;
+        }
+        
         UpdateButtonState();
         UpdateModeCardStyles();
         BuildWidgetList();

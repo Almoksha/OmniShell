@@ -46,7 +46,7 @@ A modern Windows shell extension and folder management tool built with WPF. Omni
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/Almoksha/Omni-Shell.git
+   git clone https://github.com/Almoksha/OmniShell.git
    cd Omni-Shell
    ```
 

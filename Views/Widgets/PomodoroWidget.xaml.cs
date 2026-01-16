@@ -32,7 +32,48 @@ public partial class PomodoroWidget : System.Windows.Controls.UserControl
         };
         _timer.Tick += Timer_Tick;
         
-        ResetTimer();
+        // Load saved state or reset to default
+        Loaded += (s, e) => RestoreState();
+    }
+    
+    private void RestoreState()
+    {
+        try
+        {
+            _sessionCount = Services.WidgetSettings.GetPomodoroSessionCount();
+            _timeRemaining = TimeSpan.FromSeconds(Services.WidgetSettings.GetPomodoroTimeRemaining());
+            _isFocusMode = Services.WidgetSettings.GetPomodoroIsFocusMode();
+            _isRunning = Services.WidgetSettings.GetPomodoroIsRunning();
+            
+            // Set total time based on mode
+            _totalTime = _isFocusMode ? TimeSpan.FromMinutes(FocusMinutes) : TimeSpan.FromMinutes(BreakMinutes);
+            
+            // Update UI
+            SessionCountText.Text = $"{_sessionCount} session{(_sessionCount == 1 ? "" : "s")}";
+            ModeText.Text = _isFocusMode ? "Focus Time" : "Break Time";
+            TimerText.Foreground = _isFocusMode 
+                ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xF9, 0x73, 0x16))
+                : new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x10, 0xB9, 0x81));
+            
+            UpdateDisplay();
+            
+            // Resume timer if it was running
+            if (_isRunning)
+            {
+                _timer.Start();
+            }
+        }
+        catch
+        {
+            // If restore fails, just reset
+            ResetTimer();
+        }
+    }
+    
+    private void SaveState()
+    {
+        Services.WidgetSettings.SetPomodoroState(_timeRemaining.TotalSeconds, _isRunning, _isFocusMode);
+        Services.WidgetSettings.SetPomodoroSessionCount(_sessionCount);
     }
 
     private void Timer_Tick(object? sender, EventArgs e)
@@ -46,6 +87,7 @@ public partial class PomodoroWidget : System.Windows.Controls.UserControl
         else
         {
             UpdateDisplay();
+            SaveState(); // Save every second to persist progress
         }
     }
 
@@ -96,6 +138,7 @@ public partial class PomodoroWidget : System.Windows.Controls.UserControl
         }
         
         UpdateDisplay();
+        SaveState(); // Save after session completion
     }
 
     private void ResetTimer()
@@ -109,6 +152,7 @@ public partial class PomodoroWidget : System.Windows.Controls.UserControl
         TimerText.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xF9, 0x73, 0x16));
         ProgressBar.Width = 0;
         UpdateDisplay();
+        SaveState(); // Save after reset
     }
 
     private void StartPauseButton_Click(object sender, RoutedEventArgs e)
@@ -123,6 +167,7 @@ public partial class PomodoroWidget : System.Windows.Controls.UserControl
             _timer.Start();
             _isRunning = true;
         }
+        SaveState(); // Save start/pause state
     }
 
     private void ResetButton_Click(object sender, RoutedEventArgs e)

@@ -25,8 +25,24 @@ public partial class MainWindow : Window
         Instance = this;
         InitializeComponent();
         
+        // Restore window position and size
+        RestoreWindowState();
+        
         // Initialize system tray icon
         InitializeTrayIcon();
+        
+        // Restore sidebar mode preference
+        var savedMode = Services.AppSettings.GetSidebarMode();
+        _pendingSidebarMode = savedMode == "Docked" ? Views.SidebarMode.Docked : Views.SidebarMode.Floating;
+        
+        // Restore sidebar visibility if it was visible on last run
+        Loaded += (s, e) =>
+        {
+            if (Services.AppSettings.GetSidebarVisibleOnStartup())
+            {
+                ShowSidebar();
+            }
+        };
         
         // Initialize plugin loader and discover plugins
         _pluginLoader = new PluginLoader();
@@ -53,6 +69,53 @@ public partial class MainWindow : Window
                     }
                 }
             };
+        }
+    }
+    
+    private void RestoreWindowState()
+    {
+        try
+        {
+            var left = Services.AppSettings.GetWindowLeft();
+            var top = Services.AppSettings.GetWindowTop();
+            var width = Services.AppSettings.GetWindowWidth();
+            var height = Services.AppSettings.GetWindowHeight();
+            var state = Services.AppSettings.GetWindowState();
+            
+            // Restore size
+            if (width > 0 && height > 0)
+            {
+                Width = width;
+                Height = height;
+            }
+            
+            // Check if we have saved position (if both are 0, it's first run)
+            bool hasValidPosition = !(left == 0 && top == 0);
+            
+            if (hasValidPosition)
+            {
+                // Restore saved position
+                Left = left;
+                Top = top;
+            }
+            else
+            {
+                // First run - center the window
+                Left = (SystemParameters.PrimaryScreenWidth - Width) / 2;
+                Top = (SystemParameters.PrimaryScreenHeight - Height) / 2;
+            }
+            
+            if (state == "Maximized")
+            {
+                WindowState = WindowState.Maximized;
+            }
+        }
+        catch
+        {
+            // Use default window settings if restoration fails
+            // Center window as fallback
+            Left = (SystemParameters.PrimaryScreenWidth - Width) / 2;
+            Top = (SystemParameters.PrimaryScreenHeight - Height) / 2;
         }
     }
     
@@ -200,6 +263,9 @@ public partial class MainWindow : Window
     
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
+        // Save window state before closing
+        SaveWindowState();
+        
         // Prevent closing, minimize to tray instead
         e.Cancel = true;
         Hide();
@@ -208,6 +274,26 @@ public partial class MainWindow : Window
             _trayIcon.Visible = true;
         }
         base.OnClosing(e);
+    }
+    
+    private void SaveWindowState()
+    {
+        try
+        {
+            // Only save position if not minimized
+            if (WindowState != WindowState.Minimized)
+            {
+                Services.AppSettings.SetWindowLeft(Left);
+                Services.AppSettings.SetWindowTop(Top);
+                Services.AppSettings.SetWindowWidth(Width);
+                Services.AppSettings.SetWindowHeight(Height);
+                Services.AppSettings.SetWindowState(WindowState == WindowState.Maximized ? "Maximized" : "Normal");
+            }
+        }
+        catch
+        {
+            // Silently fail if save fails
+        }
     }
     
     #endregion
@@ -237,11 +323,17 @@ public partial class MainWindow : Window
             _sidebarWindow.Closed += (s, e) => _sidebarWindow = null;
         }
         _sidebarWindow.ShowSidebar();
+        
+        // Save visibility preference
+        Services.AppSettings.SetSidebarVisibleOnStartup(true);
     }
     
     public void HideSidebar()
     {
         _sidebarWindow?.HideSidebar();
+        
+        // Save visibility preference
+        Services.AppSettings.SetSidebarVisibleOnStartup(false);
     }
     
     public bool IsSidebarVisible => _sidebarWindow?.IsVisible ?? false;
@@ -249,6 +341,10 @@ public partial class MainWindow : Window
     public void SetSidebarMode(Views.SidebarMode mode)
     {
         _pendingSidebarMode = mode;
+        
+        // Save mode preference
+        Services.AppSettings.SetSidebarMode(mode == Views.SidebarMode.Docked ? "Docked" : "Floating");
+        
         if (_sidebarWindow != null)
         {
             _sidebarWindow.SetMode(mode);

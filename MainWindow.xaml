@@ -7,7 +7,7 @@
         Title="OmniShell" 
         Height="700" Width="1100"
         MinHeight="500" MinWidth="800"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="Manual"
         Background="{StaticResource BackgroundBrush}"
         WindowStyle="None"
         AllowsTransparency="True"

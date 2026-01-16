@@ -59,6 +59,46 @@ public static class WidgetSettings
         WeatherLocationChanged?.Invoke(null, EventArgs.Empty);
     }
     
+    // Pomodoro state persistence
+    private static int _pomodoroSessionCount = 0;
+    private static double _pomodoroTimeRemaining = 25 * 60; // 25 minutes in seconds
+    private static bool _pomodoroIsRunning = false;
+    private static bool _pomodoroIsFocusMode = true;
+    
+    public static int GetPomodoroSessionCount()
+    {
+        return _pomodoroSessionCount;
+    }
+    
+    public static void SetPomodoroSessionCount(int count)
+    {
+        _pomodoroSessionCount = count;
+        Save();
+    }
+    
+    public static double GetPomodoroTimeRemaining()
+    {
+        return _pomodoroTimeRemaining;
+    }
+    
+    public static bool GetPomodoroIsRunning()
+    {
+        return _pomodoroIsRunning;
+    }
+    
+    public static bool GetPomodoroIsFocusMode()
+    {
+        return _pomodoroIsFocusMode;
+    }
+    
+    public static void SetPomodoroState(double timeRemaining, bool isRunning, bool isFocusMode)
+    {
+        _pomodoroTimeRemaining = timeRemaining;
+        _pomodoroIsRunning = isRunning;
+        _pomodoroIsFocusMode = isFocusMode;
+        Save();
+    }
+    
     public static List<string> GetWidgetOrder()
     {
         return new List<string>(_widgetOrder);
@@ -94,6 +134,12 @@ public static class WidgetSettings
                     {
                         _widgetOrder = data.WidgetOrder;
                     }
+                    
+                    // Load Pomodoro state
+                    _pomodoroSessionCount = data.PomodoroSessionCount;
+                    _pomodoroTimeRemaining = data.PomodoroTimeRemaining;
+                    _pomodoroIsRunning = data.PomodoroIsRunning;
+                    _pomodoroIsFocusMode = data.PomodoroIsFocusMode;
                 }
             }
         }
@@ -108,7 +154,11 @@ public static class WidgetSettings
             {
                 Visibility = _visibility,
                 WeatherLocation = _weatherLocation,
-                WidgetOrder = _widgetOrder
+                WidgetOrder = _widgetOrder,
+                PomodoroSessionCount = _pomodoroSessionCount,
+                PomodoroTimeRemaining = _pomodoroTimeRemaining,
+                PomodoroIsRunning = _pomodoroIsRunning,
+                PomodoroIsFocusMode = _pomodoroIsFocusMode
             };
             var json = JsonSerializer.Serialize(data);
             File.WriteAllText(SettingsPath, json);
@@ -121,5 +171,9 @@ public static class WidgetSettings
         public Dictionary<string, bool>? Visibility { get; set; }
         public string? WeatherLocation { get; set; }
         public List<string>? WidgetOrder { get; set; }
+        public int PomodoroSessionCount { get; set; }
+        public double PomodoroTimeRemaining { get; set; } = 25 * 60;
+        public bool PomodoroIsRunning { get; set; }
+        public bool PomodoroIsFocusMode { get; set; } = true;
     }
 }

@@ -1,47 +1,57 @@
 <div align="center">
   <img src="Resources/app_icon/app_icon.png" alt="OmniShell Icon" width="128" height="128">
-  <h1>🚀 Omni-Shell</h1>
+  <h1>🚀 OmniShell</h1>
+  <p><strong>Beta Release v1.0.0</strong></p>
+  <p>A modern Windows productivity tool for folder management and customizable widgets</p>
 </div>
 
-> ⚠️ **Alpha Build** - This is the first test build with many missing functionalities. Expect bugs and incomplete features.
+## ✨ Features
 
-A modern Windows shell extension and folder management tool built with WPF. Omni-Shell provides a sleek interface for customizing folder icons, managing files, and enhancing your Windows Explorer experience.
+### 📁 Folder Management
 
-## ✨ Features (In Development)
+- **Color Tinting** - Customize folder icons with 9 vibrant colors (Red, Orange, Yellow, Green, Blue, Purple, Pink, Cyan, Gray)
+- **Instant Application** - Changes apply immediately to Windows Explorer
+- **Easy Reset** - Restore folders to default icons with one click
 
-### Current Features
+### ⚙️ Customizable Sidebar
 
-- **Folder Icon Customization** - Change folder icons with a beautiful UI
-- **Context Menu Integration** - Right-click integration with Windows Explorer
-- **Modern WPF Interface** - Sleek, modern design with dark mode support
-- **File Management Tools** - Basic file operations and organization
-- **Widget System** - Extensible widget framework (partially implemented)
+- **8 Built-in Widgets**:
+  - 📋 Clipboard Manager - Quick access to clipboard history
+  - 💻 System Monitor - CPU, RAM, and disk usage
+  - 📅 Calendar - Current date and events
+  - 🌤️ Weather - Location-based weather updates
+  - ⏱️ Pomodoro Timer - Focus timer with session tracking
+  - 📝 Quick Notes - Persistent note-taking
+  - 🔋 Battery Monitor - Power status and estimates
+  - 📡 Network Info - Connection and speed monitoring
 
-### Planned Features
+- **Widget Management**:
+  - Show/hide individual widgets
+  - Drag to reorder
+  - Persistent configuration
 
-- Advanced file search and filtering
-- Batch folder operations
-- Custom themes and color schemes
-- Plugin system for extensions
-- Cloud storage integration
-- Enhanced performance optimizations
+### 🎯 System Integration
 
-## 🛠️ Technologies
+- **System Tray** - Minimize to tray for background operation
+- **Windows Startup** - Optional auto-start with Windows
+- **Data Persistence** - All settings and widget states saved automatically
+- **Modern UI** - Clean, dark-mode interface with smooth animations
 
-- **Framework**: .NET 6.0 / WPF
-- **Language**: C#
-- **UI**: XAML with modern design patterns
-- **Windows Integration**: Native Win32 API interop
+## 📥 Download & Installation
 
-## 📋 Prerequisites
+### Quick Start (Recommended)
 
-- Windows 10/11
-- .NET 6.0 SDK or later
-- Visual Studio 2022 (recommended) or JetBrains Rider
+1. **Download** the latest release:
+   - Go to [Releases](https://github.com/Almoksha/OmniShell/releases)
+   - Download `OmniShell-v1.0.0-win-x64.zip`
 
-## 🚀 Getting Started
+2. **Extract** the ZIP file to a folder of your choice
 
-### Installation
+3. **Run** `OmniShell.exe`
+   - No installation required!
+   - No .NET runtime needed (self-contained)
+
+### Building from Source
 
 1. **Clone the repository**
 
@@ -67,56 +77,76 @@ A modern Windows shell extension and folder management tool built with WPF. Omni
    dotnet run
    ```
 
-### Using Visual Studio
-
-1. Open `OmniShell.csproj` or the solution file in Visual Studio 2022
-2. Press `F5` to build and run the application
-3. The Omni-Shell window should appear
-
 ## 📖 Usage
 
-### Changing Folder Icons
+### Changing Folder Colors
 
-1. Launch Omni-Shell
-2. Navigate to the folder icon customization section
-3. Select a folder you want to customize
-4. Choose from the built-in icon library or use a custom icon
-5. Apply the changes
+1. Launch OmniShell
+2. Click on **Folder Tinting** in the navigation menu
+3. Click **Browse** to select a folder
+4. Click on any color to apply it instantly
+5. Click the **×** button to reset to default
 
-### Context Menu Integration
+### Managing Sidebar Widgets
 
-1. Go to Settings in Omni-Shell
-2. Enable "Add to Context Menu"
-3. Right-click any folder in Windows Explorer
-4. You should see "Omni-Shell" in the context menu
+1. Click on **Sidebar Configuration** in the navigation menu
+2. Click **Show Sidebar** to open the widget panel
+3. Toggle individual widgets on/off
+4. Drag widgets to reorder them
+5. Click **Save Configuration** to persist changes
+6. Choose between **Floating** or **Docked** sidebar modes
+
+### System Tray Features
+
+- **Minimize to Tray** - Close button minimizes to system tray
+- **Quick Access** - Right-click tray icon for quick actions
+- **Background Operation** - Run OmniShell in the background
+
+## 🛠️ Technologies
+
+- **Framework**: .NET 8.0 / WPF
+- **Language**: C#
+- **UI**: XAML with modern design patterns
+- **Icons**: Custom-generated colored folder icons
+- **Persistence**: JSON-based settings storage
 
 ## 🏗️ Project Structure
 
 ```
-Omni-Shell/
-├── Core/              # Core application logic
-├── Interop/           # Windows API interop layer
-├── Models/            # Data models
-├── Services/          # Business logic and services
-├── Tools/             # Utility tools and helpers
-├── ViewModels/        # MVVM view models
-├── Views/             # UI views and pages
-├── Resources/         # Images, icons, and assets
-├── App.xaml           # Application entry point
+OmniShell/
+├── Core/              # Plugin system and interfaces
+├── Services/          # Icon generation, settings management
+├── Tools/             # FolderTint and Sidebar plugins
+├── Views/             # UI pages and widgets
+│   ├── Widgets/      # Sidebar widget components
+│   └── SettingsPage.xaml
+├── Resources/         # App icon and assets
 └── MainWindow.xaml    # Main application window
 ```
 
-## ⚠️ Known Issues
+## 🔮 Roadmap
 
-- Some features are incomplete or non-functional
-- Performance may not be optimized
-- UI may have visual glitches
-- Limited error handling in some areas
-- Context menu integration may require administrator privileges
+### Completed ✅
+
+- [x] Folder color tinting with 9 colors
+- [x] Customizable sidebar with 8 widgets
+- [x] System tray integration
+- [x] Windows startup support
+- [x] Complete data persistence
+- [x] Self-contained installer
+
+### Planned Features
+
+- [ ] Additional folder customization options
+- [ ] More widget types (Crypto, Stocks, etc.)
+- [ ] Custom color picker
+- [ ] Keyboard shortcuts
+- [ ] Multi-language support
+- [ ] MSI installer package
 
 ## 🤝 Contributing
 
-This is an early alpha build. Contributions, bug reports, and feature requests are welcome!
+Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
@@ -136,18 +166,7 @@ Found a bug? Please open an issue on GitHub with:
 - Steps to reproduce
 - Expected vs actual behavior
 - Screenshots (if applicable)
-- System information (Windows version, .NET version)
-
-## 🔮 Roadmap
-
-- [ ] Complete core functionality
-- [ ] Improve performance and stability
-- [ ] Add comprehensive error handling
-- [ ] Implement remaining widget features
-- [ ] Add automated tests
-- [ ] Create installer package
-- [ ] Write detailed documentation
-- [ ] Add localization support
+- System information (Windows version)
 
 ## 📧 Contact
 
@@ -155,4 +174,4 @@ For questions or feedback, please open an issue on GitHub.
 
 ---
 
-**Note**: This is an experimental project under active development. Use at your own risk and always back up important data.
+**OmniShell v1.0.0 Beta** - Built with ❤️ for Windows productivity

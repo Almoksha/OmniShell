@@ -1,4 +1,7 @@
-# 🚀 Omni-Shell
+<div align="center">
+  <img src="Resources/app_icon/app_icon.png" alt="OmniShell Icon" width="128" height="128">
+  <h1>🚀 Omni-Shell</h1>
+</div>
 
 > ⚠️ **Alpha Build** - This is the first test build with many missing functionalities. Expect bugs and incomplete features.
 

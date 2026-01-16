@@ -12,11 +12,20 @@
     <Version>1.0.0</Version>
     <Authors>OmniShell</Authors>
     <Description>Windows Customization Utility</Description>
+    <ApplicationIcon>Resources\app_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <!-- Remove implicit WinForms global using to prevent conflicts with WPF Controls -->
   <ItemGroup>
     <Using Remove="System.Windows.Forms" />
+  </ItemGroup>
+
+  <!-- Copy app icons to output directory -->
+  <ItemGroup>
+    <Resource Include="Resources\app_icon.ico" />
+    <None Update="Resources\app_icon\app_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <!-- Copy folder icons to output directory -->

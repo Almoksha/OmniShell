@@ -1,0 +1,134 @@
+<Page x:Class="OmniShell.Tools.DuplicateFinder.DuplicateFinderPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Duplicate Finder"
+      Background="Transparent">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,24">
+            <TextBlock Text="Duplicate Finder" 
+                       FontSize="28" 
+                       FontWeight="Bold"
+                       Foreground="{StaticResource TextPrimaryBrush}"/>
+            <TextBlock Text="Find and remove duplicate files to free up disk space" 
+                       FontSize="14" 
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       Margin="0,8,0,0"/>
+        </StackPanel>
+        
+        <!-- Folder Selection & Controls -->
+        <Border Grid.Row="1" 
+                Style="{StaticResource Card}"
+                Margin="0,0,0,20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <TextBlock Text="Scan Directory" 
+                               FontSize="12" 
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Margin="0,0,0,8"/>
+                    <TextBlock x:Name="SelectedFolderText" 
+                               Text="No folder selected" 
+                               FontSize="15"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Row="0" Grid.Column="1" 
+                            Orientation="Horizontal" 
+                            VerticalAlignment="Center">
+                    <Button Content="Browse..." 
+                            Style="{StaticResource SecondaryButton}"
+                            Click="BrowseButton_Click"
+                            Margin="0,0,12,0"/>
+                    <Button x:Name="ScanButton" 
+                            Content="Start Scan" 
+                            Style="{StaticResource ModernButton}"
+                            Click="ScanButton_Click"/>
+                </StackPanel>
+                
+                <!-- Progress -->
+                <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,16,0,0">
+                    <ProgressBar x:Name="ScanProgress" 
+                                 Height="6" 
+                                 Value="0"
+                                 Maximum="100"
+                                 Visibility="Collapsed">
+                        <ProgressBar.Foreground>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#6366F1" Offset="0"/>
+                                <GradientStop Color="#EC4899" Offset="1"/>
+                            </LinearGradientBrush>
+                        </ProgressBar.Foreground>
+                    </ProgressBar>
+                    <TextBlock x:Name="StatusText" 
+                               Text="" 
+                               FontSize="13"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+        <!-- Results -->
+        <Border Grid.Row="2" Style="{StaticResource Card}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" 
+                           Text="Duplicates Found" 
+                           FontSize="16" 
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextPrimaryBrush}"
+                           Margin="0,0,0,16"/>
+                
+                <ListBox x:Name="DuplicatesList" 
+                         Grid.Row="1"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Foreground="{StaticResource TextPrimaryBrush}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding}" 
+                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           TextTrimming="CharacterEllipsis"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                
+                <!-- Empty State -->
+                <TextBlock x:Name="EmptyState"
+                           Grid.Row="1"
+                           Text="Select a folder and click 'Start Scan' to find duplicates"
+                           FontSize="14"
+                           Foreground="{StaticResource TextSecondaryBrush}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

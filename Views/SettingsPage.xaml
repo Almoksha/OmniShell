@@ -1,0 +1,121 @@
+<Page x:Class="OmniShell.Views.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Settings"
+      Background="Transparent">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,24">
+            <TextBlock Text="Settings" 
+                       FontSize="28" 
+                       FontWeight="Bold"
+                       Foreground="{StaticResource TextPrimaryBrush}"/>
+            <TextBlock Text="Configure OmniShell preferences" 
+                       FontSize="14" 
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       Margin="0,8,0,0"/>
+        </StackPanel>
+        
+        <!-- Settings Cards -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Context Menu Integration -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Context Menu Integration" 
+                                       FontSize="15" 
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Add 'Tint Folder' to right-click menu" 
+                                       FontSize="13" 
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                        <Button x:Name="ContextMenuButton" 
+                                Content="Install" 
+                                Style="{StaticResource SecondaryButton}"
+                                Click="ContextMenuButton_Click"
+                                Grid.Column="1"/>
+                    </Grid>
+                </Border>
+                
+                <!-- Sidebar -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Quick Access Sidebar" 
+                                       FontSize="15" 
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Show docked sidebar with clipboard manager and system monitor" 
+                                       FontSize="13" 
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                        <Button x:Name="SidebarToggleButton" 
+                                Content="Show" 
+                                Style="{StaticResource SecondaryButton}"
+                                Click="SidebarToggleButton_Click"
+                                Grid.Column="1"/>
+                    </Grid>
+                </Border>
+                
+                <!-- Start with Windows -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Start with Windows" 
+                                       FontSize="15" 
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Launch OmniShell when Windows starts" 
+                                       FontSize="13" 
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                        <CheckBox x:Name="StartupCheckBox" 
+                                  Grid.Column="1"
+                                  VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+                
+                <!-- About -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="About OmniShell" 
+                                   FontSize="15" 
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"/>
+                        <TextBlock Text="Version 1.0.0" 
+                                   FontSize="13" 
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   Margin="0,8,0,0"/>
+                        <TextBlock Text="A unified Windows customization utility" 
+                                   FontSize="13" 
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

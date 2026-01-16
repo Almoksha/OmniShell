@@ -1,0 +1,229 @@
+<Page x:Class="OmniShell.Tools.Sidebar.SidebarPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Quick Sidebar"
+      Background="Transparent">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,24">
+            <TextBlock Text="Quick Access Sidebar" 
+                       FontSize="28" 
+                       FontWeight="SemiBold"
+                       Foreground="{StaticResource TextPrimaryBrush}"/>
+            <TextBlock Text="A dockable sidebar with clipboard history and system monitor" 
+                       FontSize="14" 
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       Margin="0,8,0,0"/>
+        </StackPanel>
+        
+        <!-- Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Toggle Sidebar Card -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Sidebar Visibility" 
+                                       FontSize="15" 
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Show or hide the quick access sidebar on your screen" 
+                                       FontSize="13" 
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                        
+                        <Button x:Name="ToggleSidebarButton" 
+                                Grid.Column="1"
+                                Content="Show Sidebar"
+                                Click="ToggleSidebarButton_Click"
+                                Style="{StaticResource ModernButton}"
+                                Padding="20,10"/>
+                    </Grid>
+                </Border>
+                
+                <!-- Mode Selection Card -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                    <StackPanel>
+                        <TextBlock Text="Display Mode" 
+                                   FontSize="15" 
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Margin="0,0,0,16"/>
+                        
+                        <!-- Floating Mode -->
+                        <Border x:Name="FloatingModeCard" 
+                                Background="#1A6366F1" 
+                                CornerRadius="8" 
+                                Padding="16" 
+                                Margin="0,0,0,12"
+                                Cursor="Hand"
+                                MouseLeftButtonUp="FloatingMode_Click">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <RadioButton x:Name="FloatingModeRadio" 
+                                             GroupName="SidebarMode"
+                                             IsChecked="True"
+                                             VerticalAlignment="Center"
+                                             Margin="0,0,12,0"/>
+                                
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="Floating (Overlay)" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="Sidebar overlays other windows. No screen space reserved." 
+                                               FontSize="12" 
+                                               Foreground="{StaticResource TextSecondaryBrush}"
+                                               Margin="0,4,0,0"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Docked Mode -->
+                        <Border x:Name="DockedModeCard" 
+                                Background="Transparent" 
+                                CornerRadius="8" 
+                                Padding="16"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
+                                Cursor="Hand"
+                                MouseLeftButtonUp="DockedMode_Click">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <RadioButton x:Name="DockedModeRadio" 
+                                             GroupName="SidebarMode"
+                                             VerticalAlignment="Center"
+                                             Margin="0,0,12,0"/>
+                                
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="Docked (AppBar)" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="Sidebar reserves screen space. Other windows won't overlap." 
+                                               FontSize="12" 
+                                               Foreground="{StaticResource TextSecondaryBrush}"
+                                               Margin="0,4,0,0"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Emergency Shortcut Card -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Background="#1AF97316" 
+                                CornerRadius="6" 
+                                Padding="8,4"
+                                Margin="0,0,12,0">
+                            <TextBlock Text="Ctrl+Shift+Esc" 
+                                       FontSize="12" 
+                                       FontWeight="SemiBold"
+                                       Foreground="#F97316"/>
+                        </Border>
+                        <TextBlock Text="Emergency shortcut to force-close the sidebar if it misbehaves" 
+                                   FontSize="13" 
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Widget Visibility Toggles -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                    <StackPanel>
+                        <TextBlock Text="Widget Configuration" 
+                                   FontSize="15" 
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Margin="0,0,0,4"/>
+                        <TextBlock Text="Toggle widgets on/off and drag to reorder" 
+                                   FontSize="12" 
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   Margin="0,0,0,16"/>
+                        
+                        <!-- Dynamic Widget List -->
+                        <StackPanel x:Name="WidgetListPanel">
+                            <!-- Widgets will be added dynamically in code-behind -->
+                        </StackPanel>
+                        
+                        <!-- Weather Location Settings -->
+                        <Border Background="#262640" CornerRadius="8" Padding="12" Margin="0,12,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Weather Location" 
+                                           FontSize="13" 
+                                           FontWeight="SemiBold"
+                                           Foreground="White"
+                                           Margin="0,0,0,8"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="WeatherLocationInput"
+                                             Grid.Column="0"
+                                             Text="Current Location"
+                                             FontSize="12"
+                                             Padding="8,6"
+                                             Background="#1E1E38"
+                                             Foreground="White"
+                                             BorderBrush="#374151"
+                                             BorderThickness="1"/>
+                                    <Button x:Name="UseCurrentLocationBtn"
+                                            Grid.Column="1"
+                                            Content="📍"
+                                            ToolTip="Use Current Location"
+                                            Margin="8,0,0,0"
+                                            Padding="8,6"
+                                            Background="#374151"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            Click="UseCurrentLocation_Click"/>
+                                </Grid>
+                                <TextBlock Text="Enter city name or leave empty to auto-detect" 
+                                           FontSize="11" 
+                                           Foreground="#9CA3AF"
+                                           Margin="0,6,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Status Card -->
+                <Border x:Name="StatusCard" Style="{StaticResource Card}" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="8" Height="8" Fill="#10B981" Margin="0,0,12,0"/>
+                        <TextBlock x:Name="StatusText" 
+                                   Text="Sidebar is currently visible" 
+                                   FontSize="13" 
+                                   Foreground="{StaticResource TextSecondaryBrush}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

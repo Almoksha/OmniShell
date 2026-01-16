@@ -1,0 +1,250 @@
+<Page x:Class="OmniShell.Tools.FolderTint.FolderTintPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Folder Tinting"
+      Background="Transparent">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,24">
+            <TextBlock Text="Folder Tinting" 
+                       FontSize="28" 
+                       FontWeight="Bold"
+                       Foreground="{StaticResource TextPrimaryBrush}"/>
+            <TextBlock Text="Change folder icons to quickly identify your directories" 
+                       FontSize="14" 
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       Margin="0,8,0,0"/>
+        </StackPanel>
+        
+        <!-- Folder Selection -->
+        <Border Grid.Row="1" 
+                Style="{StaticResource Card}"
+                Margin="0,0,0,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Selected Folder" 
+                               FontSize="12" 
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Margin="0,0,0,8"/>
+                    <TextBlock x:Name="SelectedFolderText" 
+                               Text="No folder selected" 
+                               FontSize="15"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+                
+                <Button Grid.Column="1" 
+                        Content="Browse..." 
+                        Style="{StaticResource SecondaryButton}"
+                        Click="BrowseButton_Click"
+                        VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+        
+        <!-- Color Selection -->
+        <Border Grid.Row="2" Style="{StaticResource Card}">
+            <StackPanel>
+                <TextBlock Text="Choose a Color" 
+                           FontSize="16" 
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextPrimaryBrush}"
+                           Margin="0,0,0,20"/>
+                
+                <!-- Color Grid -->
+                <WrapPanel x:Name="ColorPanel" Margin="0,0,0,24">
+                    <!-- Colors will be added dynamically, but here's the static version -->
+                    <Button Tag="Red" Click="ColorButton_Click" Margin="0,0,12,12" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Width="56" Height="56" CornerRadius="12" Background="#EF4444" BorderThickness="3" BorderBrush="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#EF4444" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                    </Border.Effect>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <Button Tag="Orange" Click="ColorButton_Click" Margin="0,0,12,12" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Width="56" Height="56" CornerRadius="12" Background="#F97316" BorderThickness="3" BorderBrush="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#F97316" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                    </Border.Effect>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <Button Tag="Yellow" Click="ColorButton_Click" Margin="0,0,12,12" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Width="56" Height="56" CornerRadius="12" Background="#EAB308" BorderThickness="3" BorderBrush="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#EAB308" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                    </Border.Effect>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <Button Tag="Green" Click="ColorButton_Click" Margin="0,0,12,12" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Width="56" Height="56" CornerRadius="12" Background="#22C55E" BorderThickness="3" BorderBrush="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#22C55E" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                    </Border.Effect>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <Button Tag="Blue" Click="ColorButton_Click" Margin="0,0,12,12" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Width="56" Height="56" CornerRadius="12" Background="#3B82F6" BorderThickness="3" BorderBrush="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#3B82F6" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                    </Border.Effect>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <Button Tag="Purple" Click="ColorButton_Click" Margin="0,0,12,12" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Width="56" Height="56" CornerRadius="12" Background="#8B5CF6" BorderThickness="3" BorderBrush="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#8B5CF6" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                    </Border.Effect>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <Button Tag="Pink" Click="ColorButton_Click" Margin="0,0,12,12" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Width="56" Height="56" CornerRadius="12" Background="#EC4899" BorderThickness="3" BorderBrush="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#EC4899" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                    </Border.Effect>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <Button Tag="Cyan" Click="ColorButton_Click" Margin="0,0,12,12" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Width="56" Height="56" CornerRadius="12" Background="#06B6D4" BorderThickness="3" BorderBrush="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#06B6D4" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                    </Border.Effect>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <Button Tag="Gray" Click="ColorButton_Click" Margin="0,0,12,12" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Width="56" Height="56" CornerRadius="12" Background="#6B7280" BorderThickness="3" BorderBrush="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#6B7280" BlurRadius="15" ShadowDepth="0" Opacity="0.3"/>
+                                    </Border.Effect>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <!-- Reset Button -->
+                    <Button Tag="Default" Click="ColorButton_Click" Margin="0,0,12,12" Cursor="Hand" ToolTip="Reset to default">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Width="56" Height="56" CornerRadius="12" 
+                                        Background="{StaticResource SurfaceLightBrush}" 
+                                        BorderThickness="2" 
+                                        BorderBrush="{StaticResource BorderBrush}">
+                                    <TextBlock Text="✕" FontSize="20" Foreground="{StaticResource TextSecondaryBrush}" 
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </WrapPanel>
+                
+                <!-- Status Message -->
+                <TextBlock x:Name="StatusText" 
+                           Text="" 
+                           FontSize="13"
+                           Foreground="{StaticResource TextSecondaryBrush}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
